@@ -2,8 +2,12 @@ const canvas = document.getElementById('nebula-canvas');
 const ctx = canvas.getContext('2d');
 
 let stars = [];
-const numStars = 800;
+const numStars = 200; // Reduced count as per request for lightweight feel
 let centerX, centerY;
+let mouseX = 0;
+let mouseY = 0;
+let targetX = 0;
+let targetY = 0;
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -17,22 +21,28 @@ window.addEventListener('resize', () => {
     centerY = canvas.height / 2;
 });
 
+// Parallax Listener
+document.addEventListener('mousemove', (e) => {
+    mouseX = (e.clientX - centerX) * 0.1; // Scale factor for subtlety
+    mouseY = (e.clientY - centerY) * 0.1;
+});
+
 class Star {
     constructor() {
         this.reset();
-        // pre-warm positions so they don't all start at center
+        // pre-warm
         this.z = Math.random() * canvas.width;
     }
 
     reset() {
-        this.x = (Math.random() - 0.5) * canvas.width * 2; // wider spread
+        this.x = (Math.random() - 0.5) * canvas.width * 2;
         this.y = (Math.random() - 0.5) * canvas.height * 2;
-        this.z = canvas.width; // Start far away
-        this.pz = this.z; // previous z
+        this.z = canvas.width;
+        this.pz = this.z;
     }
 
     update() {
-        this.z = this.z - 10; // Speed of travel (warp speed)
+        this.z = this.z - 5; // Drift speed
 
         if (this.z < 1) {
             this.reset();
@@ -43,29 +53,30 @@ class Star {
     }
 
     draw() {
-        // 3D projection formula
-        // x' = x / z
+        // Apply parallax offset to the center point
+        // Smooth easing for target
+        targetX += (mouseX - targetX) * 0.05;
+        targetY += (mouseY - targetY) * 0.05;
 
-        let sx = (this.x / this.z) * centerX + centerX;
-        let sy = (this.y / this.z) * centerY + centerY;
+        // 3D projection
+        let sx = (this.x / this.z) * centerX + centerX + targetX * (this.z / canvas.width); // Parallax effect inversely proportional to depth? Or just general shift.
+        // Let's shift the whole perspective origin slightly
+        let perspectiveOX = centerX + targetX;
+        let perspectiveOY = centerY + targetY;
 
-        let r = (1 - this.z / canvas.width) * 2.5; // Size based on distance
+        sx = (this.x / this.z) * centerX + perspectiveOX;
+        let sy = (this.y / this.z) * centerY + perspectiveOY;
 
-        let px = (this.x / this.pz) * centerX + centerX;
-        let py = (this.y / this.pz) * centerY + centerY;
-
-        this.pz = this.z;
+        let r = (1 - this.z / canvas.width) * 3; // Size
 
         if (sx < 0 || sx > canvas.width || sy < 0 || sy > canvas.height) {
             return;
         }
 
         ctx.beginPath();
-        ctx.strokeStyle = `rgba(255, 255, 255, ${1 - this.z / canvas.width})`;
-        ctx.lineWidth = r;
-        ctx.moveTo(px, py);
-        ctx.lineTo(sx, sy);
-        ctx.stroke();
+        ctx.fillStyle = `rgba(255, 255, 255, ${1 - this.z / canvas.width})`;
+        ctx.arc(sx, sy, r, 0, Math.PI * 2);
+        ctx.fill();
     }
 }
 
@@ -77,12 +88,7 @@ function init() {
 }
 
 function animate() {
-    // Leave trails for warp effect? 
-    // ctx.fillStyle = 'rgba(5, 5, 5, 0.4)'; 
-    // ctx.fillRect(0, 0, canvas.width, canvas.height); 
-    // Clear fully for crisp stars
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
     for (let i = 0; i < stars.length; i++) {
         stars[i].update();
         stars[i].draw();
