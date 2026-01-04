@@ -1,37 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VALYRIA | The Intelligence Forge</title>
-    
+
     <!-- Social Meta Tags -->
-    <meta name="description" content="The Intelligence Forge is Warming. Access is Coming. Join the High Council.">
-    
-    <!-- Open Graph / Facebook -->
+    <meta name="description" content="The Intelligence Forge is Warming. Forge Your Legacy. Join the High Council.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://valyria.io/">
     <meta property="og:title" content="VALYRIA | The Intelligence Forge">
-    <meta property="og:description" content="The Intelligence Forge is Warming. Access is Coming.">
+    <meta property="og:description" content="The Intelligence Forge is Warming. Forge Your Legacy.">
     <meta property="og:image" content="og-image.jpg">
-
-    <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://valyria.io/">
-    <meta property="twitter:title" content="VALYRIA | The Intelligence Forge">
-    <meta property="twitter:description" content="The Intelligence Forge is Warming. Access is Coming.">
     <meta property="twitter:image" content="og-image.jpg">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Syncopate:wght@400;700&display=swap"
+        rel="stylesheet">
+
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <canvas id="nebula-canvas"></canvas>
-    
+
     <div class="singularity-container">
         <div class="singularity-ring"></div>
         <div class="singularity-core"></div>
@@ -40,10 +37,15 @@
 
     <main class="content-overlay">
         <h1 class="logo-title">VALYRIA</h1>
-        <p class="subtext">The Intelligence Forge is Warming.<br>Access is Coming.</p>
-        <button class="cta-button">Join the High Council</button>
+        <p class="subtext">The Intelligence Forge is Warming.<br>Forge Your Legacy.</p>
+
+        <form action="https://formspree.io/f/mqakeqre" method="POST" class="join-form">
+            <input type="email" name="email" placeholder="ENTER YOUR FREQUENCY" required class="email-input">
+            <button type="submit" class="cta-button">Join the Council</button>
+        </form>
     </main>
 
     <script src="particles.js"></script>
 </body>
+
 </html>
