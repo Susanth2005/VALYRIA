@@ -1,0 +1,211 @@
+:root {
+    --bg-color: #050505;
+    --accent-color: #ffffff;
+    --glow-color: rgba(255, 255, 255, 0.8);
+    --void-color: #000000;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--accent-color);
+    font-family: 'Orbitron', sans-serif;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1000px;
+}
+
+#nebula-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    opacity: 0.6;
+}
+
+.singularity-container {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    transform-style: preserve-3d;
+    animation: float 10s ease-in-out infinite;
+}
+
+.singularity-core {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background-color: var(--void-color);
+    border-radius: 50%;
+    box-shadow: 0 0 50px 20px rgba(0, 0, 0, 1), inset 0 0 60px rgba(0,0,0,1);
+    z-index: 10;
+}
+
+.event-horizon {
+    position: absolute;
+    width: 210px;
+    height: 210px;
+    border-radius: 50%;
+    box-shadow: 0 0 20px 2px rgba(255, 255, 255, 0.6);
+    opacity: 0.8;
+    z-index: 9;
+}
+
+.singularity-ring {
+    position: absolute;
+    width: 450px;
+    height: 450px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    border-top: 4px solid rgba(255, 255, 255, 0.4);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+    transform: rotateX(70deg) rotateY(10deg);
+    animation: spin 20s linear infinite;
+    z-index: 5;
+}
+
+.singularity-ring::after {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    border-radius: 50%;
+    border: 10px solid transparent;
+    border-top: 2px solid rgba(255, 255, 255, 0.2);
+    transform: rotate(180deg);
+}
+
+.content-overlay {
+    position: relative;
+    z-index: 20;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem;
+    backdrop-filter: blur(2px);
+}
+
+.logo-title {
+    font-family: 'Syncopate', sans-serif;
+    font-weight: 700;
+    font-size: 5rem;
+    letter-spacing: 1rem;
+    text-transform: uppercase;
+    background: linear-gradient(180deg, #ffffff 0%, #a0a0a0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+    animation: textFlicker 5s infinite alternate;
+}
+
+.subtext {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.3rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+}
+
+.cta-button {
+    margin-top: 2rem;
+    padding: 1rem 3rem;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.2rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
+}
+
+.cta-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.cta-button:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.cta-button:hover::before {
+    left: 100%;
+}
+
+@keyframes spin {
+    from { transform: rotateX(70deg) rotateY(10deg) rotateZ(0deg); }
+    to { transform: rotateX(70deg) rotateY(10deg) rotateZ(360deg); }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes textFlicker {
+    0%, 18%, 22%, 25%, 53%, 57%, 100% {
+        opacity: 1;
+        text-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+    }
+    20%, 24%, 55% {
+        opacity: 0.8;
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    }
+}
+
+@media (max-width: 768px) {
+    .logo-title {
+        font-size: 2.5rem;
+        letter-spacing: 0.5rem;
+    }
+    .singularity-container {
+        width: 300px;
+        height: 300px;
+    }
+    .singularity-ring {
+        width: 250px;
+        height: 250px;
+    }
+    .singularity-core {
+        width: 100px;
+        height: 100px;
+    }
+    .event-horizon {
+        width: 105px;
+        height: 105px;
+    }
+}
